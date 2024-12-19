@@ -17,8 +17,8 @@ int	ft_isdigit(int c)
 int	ft_atoi(char *str)
 {
 	int			i;
-	long		r;
-	long		check;
+	int		r;
+	int		check;
 
 	i = 0;
 	r = 0;

@@ -1,33 +1,43 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <string.h>
+
+# define SET 0
+# define GET 1
+# define STILL 0
+# define ENDED 1
+
+typedef struct s_philo t_philo;
+typedef struct s_monitor t_monitor;
 
 typedef struct s_monitor
 {
-	long			t_die;
-	long			t_eat;
-	long			t_sleep;
-	long			meal_max;
-	long			num_philos;
-	struct timeval	*start;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				meal_max;
+	int				num_philos;
+	size_t			start;
+	t_philo			*philos;
+	pthread_t		*philos_th;
 	pthread_mutex_t *forks;
-	pthread_t		*philos;
 	pthread_mutex_t	*writing;
 }					t_monitor;
 
 typedef struct s_philo
 {
 	int				id;
-	long			last_meal;
-	long			number_of_meals;
+	int				left_fork;
+	int				right_fork;
+	int				number_of_meals;
+	size_t			last_meal;
 	t_monitor		*monitor;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*philo_lock;
 }					t_philo;
 
