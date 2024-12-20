@@ -65,8 +65,8 @@ int	init_monitor(int ac, char **av, t_monitor *monitor_data)
 	int tmp;
 
 	monitor_data->num_philos = ft_atoi(av[1]);
-	if (monitor_data->num_philos > 600 || monitor_data->num_philos == -1)
-		return(put_err("Too many philosophers\n", 22));
+	if (monitor_data->num_philos > 600 || monitor_data->num_philos == -1 || monitor_data->num_philos == 0)
+		return(put_err("Invalid number of philosophers\n", 31));
 
 	tmp = ft_atoi(av[2]);	
 	if (tmp  == -1 || tmp < 60)
@@ -302,7 +302,7 @@ int lock_forks(t_philo *philo, int first, int second)
 
 int	get_forks(t_philo *philo)
 {
-	if (philo->monitor->sim_state == ENDED)
+	if (philo->monitor->sim_state == ENDED || philo->right_fork == philo->left_fork)
 		return (1);
 	if (philo->right_fork > philo->left_fork)
 	{
@@ -357,7 +357,7 @@ int	philo_sleep(t_philo *philo)
 	pthread_mutex_unlock(philo->monitor->writing);
 	if (philo->monitor->sim_state == ENDED)
 		return (1);
-	usleep(philo->monitor->t_sleep);
+	usleep(philo->monitor->t_sleep * 1000);
 	return (0);
 }
 
@@ -373,6 +373,7 @@ int philo_think(t_philo *philo)
 	}
 	printf("%ld %d is thinking\n", elapsed_time(philo->monitor->start), philo->id);
 	pthread_mutex_unlock(philo->monitor->writing);
+	// usleep(1000);
 	return (0);
 }
 
