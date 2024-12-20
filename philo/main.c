@@ -87,6 +87,7 @@ int	init_monitor(int ac, char **av, t_monitor *monitor_data)
 	}
 	else 
 		monitor_data->meal_max = -1;
+
 	return (0);
 }
 
