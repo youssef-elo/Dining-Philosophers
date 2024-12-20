@@ -4,7 +4,9 @@ FILES= $(shell ls *.c)
 
 OFILES= $(FILES:.c=.o)
 
-FLAGS= -Wall -Wextra -Werror
+EXTRA = -fsanitize=thread
+
+FLAGS= -Wall -Wextra -Werror $(EXTRA)
 
 HEADER=philo.h
 
