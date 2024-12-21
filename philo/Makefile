@@ -4,18 +4,21 @@ FILES= $(shell ls *.c)
 
 OFILES= $(FILES:.c=.o)
 
-EXTRA = -fsanitize=thread
+# EXTRA =  -fsanitize=thread
+# EXTRA = -fsanitize=undefined
 
 FLAGS= -Wall -Wextra -Werror $(EXTRA)
 
-HEADER=philo.h
+HEADER= philo.h
 
-all : $(NAME)
+REMOVE = Makefile
+
+all : $(NAME) 
 
 $(NAME) : $(OFILES) $(HEADER)
 	cc $(FLAGS) $(OFILES) -o $(NAME)
 
-%.o : %.c $(HEADER)
+%.o : %.c $(HEADER) $(REMOVE)
 	cc -c $(FLAGS) $< -o $@
 
 clean : 
