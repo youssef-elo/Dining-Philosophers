@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:52:08 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/21 16:23:09 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/21 16:28:59 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		put_err(char *str, int len);
 int		philo_think(t_philo *philo);
 int		check_args(int ac, char **av);
 void	cleanup(t_monitor *monitor_d);
+void	monitor_alloc(t_monitor *monitor_d);
 void	init_philo_time(t_monitor *monitor_d);
 int		philo_mutex_init(t_monitor *monitor_d);
 int		ft_usleep(t_philo *philo, size_t duration);
