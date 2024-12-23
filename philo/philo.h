@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:52:08 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/21 20:43:43 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:11:17 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ void	init_philo_time(t_monitor *monitor_d);
 int		philo_mutex_init(t_monitor *monitor_d);
 int		ft_usleep(t_philo *philo, size_t duration);
 int		lock_forks(t_philo *philo, int first, int second);
-void	release_forks(t_philo *philo, int first, int second);
-void	join_clean(t_monitor *monitor_d, pthread_t monitor_th);
-void	join_clean(t_monitor *monitor_d, pthread_t monitor_th);
 int		init_monitor(int ac, char **av, t_monitor *monitor_data);
+void	join_clean(t_monitor *monitor_d, pthread_t monitor_th, int i, int m);
 
 #endif

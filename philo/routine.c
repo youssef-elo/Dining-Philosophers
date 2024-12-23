@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:50:56 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/21 15:50:57 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/22 11:28:50 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2)
+		usleep(30 * 100);
 	while (1)
 	{
 		if (philo->monitor->satisfied == FULL)
 			return (NULL);
-		if (philo->id % 2)
-			usleep(30 * 100);
 		if (philo->monitor->sim_state == ENDED)
 			return (NULL);
 		if (get_forks(philo))

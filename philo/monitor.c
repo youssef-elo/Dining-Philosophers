@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:39:22 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/21 15:39:54 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:33:56 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	*monitor(void *arg)
 	t_monitor	*monitor_d;
 
 	monitor_d = (t_monitor *)arg;
+	ft_usleep(&monitor_d->philos[0], monitor_d->t_die / 2);
 	while (1)
 	{
 		meal_maxed = 0;

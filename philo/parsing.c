@@ -6,13 +6,13 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:53:30 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/21 16:21:51 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:12:35 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_isalnum(char *s)
+int	ft_isallnum(char *s)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ int	check_args(int ac, char **av)
 	}
 	while (i < ac)
 	{
-		if (!ft_isalnum(av[i]))
+		if (!ft_isallnum(av[i]))
 		{
 			write(2, "Invalid arguments\n", 18);
 			return (1);
@@ -58,30 +58,36 @@ int	check_args(int ac, char **av)
 	return (0);
 }
 
-int	put_err(char *str, int len)
+void	philo_lock_init(t_monitor *m, int *mutex_fail)
 {
-	write(2, str, len);
-	return (1);
+	int	i;
+
+	i = 0;
+	while (i < m->num_philos)
+	{
+		m->philos[i].philo_lock = ft_calloc(sizeof(pthread_mutex_t));
+		if (!m->philos[i].philo_lock)
+			cleanup(m);
+		if (pthread_mutex_init(m->philos[i].philo_lock, NULL))
+		{
+			free(m->philos[i].philo_lock);
+			m->philos[i].philo_lock = NULL;
+			*mutex_fail = 1;
+			break ;
+		}
+		i++;
+	}
 }
 
 int	philo_mutex_init(t_monitor *m)
 {
-	int	i;
+	int	mutex_fail;
 
+	mutex_fail = 0;
 	monitor_alloc(m);
 	if (m->philos)
-	{
-		i = 0;
-		while (i < m->num_philos)
-		{
-			m->philos[i].philo_lock = ft_calloc(sizeof(pthread_mutex_t));
-			if (!m->philos[i].philo_lock)
-				cleanup(m);
-			pthread_mutex_init(m->philos[i].philo_lock, NULL);
-			i++;
-		}
-	}
-	if (!m->start || !m->writing || !m->philos || !m->forks)
+		philo_lock_init(m, &mutex_fail);
+	if (!m->start || !m->writing || !m->philos || !m->forks || mutex_fail)
 	{
 		cleanup(m);
 		return (1);
