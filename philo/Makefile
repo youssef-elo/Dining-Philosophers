@@ -13,7 +13,7 @@ FILES= time.c\
 
 OFILES= $(FILES:.c=.o)
 
-FLAGS= -Wall -Wextra -Werror 
+FLAGS= -Wall -Wextra -Werror
 
 HEADER= philo.h
 

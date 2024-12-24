@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:47:11 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/21 15:50:32 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:05:55 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	lock_first(t_philo *philo, int first)
 {
 	pthread_mutex_lock(&(philo->monitor->forks[first]));
-	if (philo->monitor->sim_state == ENDED)
+	if (philo->monitor->sim_state == ENDED || philo->monitor->satisfied == FULL)
 	{
 		pthread_mutex_unlock(&(philo->monitor->forks[first]));
 		return (1);
 	}
 	pthread_mutex_lock(philo->monitor->writing);
-	if (philo->monitor->sim_state == ENDED)
+	if (philo->monitor->sim_state == ENDED || philo->monitor->satisfied == FULL)
 	{
 		pthread_mutex_unlock(&(philo->monitor->forks[first]));
 		pthread_mutex_unlock(philo->monitor->writing);
@@ -40,17 +40,21 @@ int	lock_first(t_philo *philo, int first)
 
 int	lock_forks(t_philo *philo, int first, int second)
 {
+	if (philo->monitor->sim_state == ENDED || philo->monitor->satisfied == FULL)
+		return (1);
 	if (lock_first(philo, first))
 		return (1);
 	pthread_mutex_lock(&(philo->monitor->forks[second]));
-	if (philo->monitor->sim_state == ENDED)
+	if (philo->monitor->sim_state == ENDED
+		|| philo->monitor->satisfied == FULL)
 	{
 		pthread_mutex_unlock(&(philo->monitor->forks[first]));
 		pthread_mutex_unlock(&(philo->monitor->forks[second]));
 		return (1);
 	}
 	pthread_mutex_lock(philo->monitor->writing);
-	if (philo->monitor->sim_state == ENDED)
+	if (philo->monitor->sim_state == ENDED
+		|| philo->monitor->satisfied == FULL)
 	{
 		pthread_mutex_unlock(&(philo->monitor->forks[first]));
 		pthread_mutex_unlock(&(philo->monitor->forks[second]));
@@ -63,23 +67,6 @@ int	lock_forks(t_philo *philo, int first, int second)
 	return (0);
 }
 
-int	get_forks(t_philo *philo)
-{
-	if (philo->monitor->sim_state == ENDED)
-		return (1);
-	if (philo->right_fork > philo->left_fork)
-	{
-		if (lock_forks(philo, philo->left_fork, philo->right_fork))
-			return (1);
-	}
-	else
-	{
-		if (lock_forks(philo, philo->right_fork, philo->left_fork))
-			return (1);
-	}
-	return (0);
-}
-
 int	philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->philo_lock);
@@ -87,7 +74,7 @@ int	philo_eat(t_philo *philo)
 	philo->number_of_meals += 1;
 	pthread_mutex_unlock(philo->philo_lock);
 	pthread_mutex_lock(philo->monitor->writing);
-	if (philo->monitor->sim_state == ENDED)
+	if (philo->monitor->sim_state == ENDED || philo->monitor->satisfied == FULL)
 	{
 		pthread_mutex_unlock(philo->monitor->writing);
 		pthread_mutex_unlock(&(philo->monitor->forks[philo->right_fork]));

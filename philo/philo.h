@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:52:08 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/23 16:11:17 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:15:59 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # include <string.h>
 # include <stdatomic.h>
 
-# define SET 0
-# define GET 1
 # define STILL 0
 # define ENDED 1
 # define HUNGRY 0
@@ -62,7 +60,6 @@ int		ft_atoi(char *str);
 void	*monitor(void *arg);
 void	*ft_calloc(int size);
 void	*philo_routine(void *arg);
-int		get_forks(t_philo *philo);
 int		philo_eat(t_philo *philo);
 size_t	elapsed_time(size_t start);
 int		philo_sleep(t_philo *philo);

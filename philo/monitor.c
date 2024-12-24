@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:39:22 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/23 15:33:56 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:03:05 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_death(t_monitor *m, int *meal_maxed)
 			if (m->meal_max != -1 && m->philos[i].number_of_meals < m->meal_max)
 				return (announce_death(m, i));
 		}
-		if (m->meal_max != -1 && m->philos[i].number_of_meals == m->meal_max)
+		if (m->meal_max != -1 && m->philos[i].number_of_meals >= m->meal_max)
 			(*meal_maxed)++;
 		pthread_mutex_unlock(m->philos[i].philo_lock);
 		i++;
@@ -52,7 +52,10 @@ void	*monitor(void *arg)
 	t_monitor	*monitor_d;
 
 	monitor_d = (t_monitor *)arg;
-	ft_usleep(&monitor_d->philos[0], monitor_d->t_die / 2);
+	if (monitor_d->t_die < (size_t)monitor_d->t_eat)
+		ft_usleep(&monitor_d->philos[0], monitor_d->t_die / 2);
+	else
+		ft_usleep(&monitor_d->philos[0], monitor_d->t_eat / 2);
 	while (1)
 	{
 		meal_maxed = 0;

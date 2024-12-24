@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:14:01 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/23 16:12:51 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/24 11:19:20 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ void	init_forks(t_monitor *monitor_d)
 
 void	monitor_alloc(t_monitor *monitor_d)
 {
-	int	i;
-
-	i = 0;
 	monitor_d->writing = ft_calloc(sizeof(pthread_mutex_t));
 	if (monitor_d->writing)
 	{
