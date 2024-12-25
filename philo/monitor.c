@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:39:22 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/24 13:03:05 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/25 10:32:18 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ int	check_death(t_monitor *m, int *meal_maxed)
 		pthread_mutex_lock(m->philos[i].philo_lock);
 		if (((elapsed_time(m->start) - m->philos[i].last_meal) >= m->t_die))
 		{
-			if (m->meal_max == -1)
+			// to reconsider since they dont stop eating after they max their meals but when all max their meals 
+			//so if one dies after meal maxing it should die
+			// if (m->meal_max == -1)
 				return (announce_death(m, i));
-			if (m->meal_max != -1 && m->philos[i].number_of_meals < m->meal_max)
-				return (announce_death(m, i));
+			// if (m->meal_max != -1 && m->philos[i].number_of_meals < m->meal_max)
+			// 	return (announce_death(m, i));
 		}
 		if (m->meal_max != -1 && m->philos[i].number_of_meals >= m->meal_max)
 			(*meal_maxed)++;

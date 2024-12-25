@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:44:28 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/24 16:43:49 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/25 19:39:01 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,20 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <string.h>
+# include <sys/time.h>
 
 # define ALIVE 0
 # define DEAD 1
 # define HUNGRY 0
 # define FULL 1
 
+# define WRITESM "/lektaba"
+# define FORKSM "/forks"
+# define DEADSM "/dead"
+# define FULLSM "/full"
+# define PHILOSM "/philo_lock"
+# define GREEN "/start_the_race"
 typedef struct s_data
 {
 	int			id;
@@ -36,16 +44,34 @@ typedef struct s_data
 	int			t_sleep;
 	int			meal_max;
 	int			num_philos;
-	_Atomic	int	philo_state;
+	int			number_of_meals;
 	_Atomic int	satisfied;
+	_Atomic	int	philo_state;
 	size_t		t_die;
+	size_t		start;
+	size_t		last_meal;
 	sem_t		*writing;
 	sem_t		*forks;
+	sem_t		*dead;
+	sem_t		*full;
+	sem_t		*philo_lock;
+	sem_t		*green_light;
 }			t_data;
 
-int	ft_atoi(char *str);
-int	struct_init(int ac, char **av, t_data *sim_d);
-int	init_semaphore(t_data *sim_d);
-int	check_args(int ac, char **av);
+typedef struct	s_watcher
+{
+	_Atomic int	full;
+	_Atomic int	sim_state;
+	int			*ids;
+	t_data		*sim_d;
+}				t_watcher;
 
+int		ft_atoi(char *str);
+int		init_semaphore(t_data *sim_d);
+int		check_args(int ac, char **av);
+void	release_semaphores(t_data *sim_d);
+int		struct_init(int ac, char **av, t_data *sim_d);
+void	announce_death(t_data *sim_d);
+size_t	elapsed_time(size_t start);
+void	*philo(t_data *sim_d);
 #endif

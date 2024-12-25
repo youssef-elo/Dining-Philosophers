@@ -16,7 +16,7 @@ void *fueler(void *nb)
 	int car_tank;
 	int *id = (int *)nb;
 	int pump_check[4] ={0,0,0,0};
-	while(1)
+	while (1)
 	{
 		for (int i =0; i < 4;i++)
 		{

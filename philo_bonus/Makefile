@@ -8,13 +8,15 @@ FLAGS= -Wall -Wextra -Werror
 
 HEADER= philo_bonus.h
 
+# EXTRA = -g -fsanitize=thread
+
 all : $(NAME)
 
 $(NAME) : $(OFILES)
-	cc $(FLAGS) $(OFILES) -o $(NAME)
+	cc $(FLAGS) $(OFILES) -o $(NAME) $(EXTRA)
 
 %.o : %.c $(HEADER)
-	cc $(FLAGS) -c $< -o $@
+	cc $(FLAGS) -c $< -o $@ 
 
 clean :
 	rm -f $(OFILES)
