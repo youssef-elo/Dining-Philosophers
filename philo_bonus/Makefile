@@ -15,8 +15,6 @@ FLAGS= -Wall -Wextra -Werror
 
 HEADER= philo_bonus.h
 
-#EXTRA = -g -fsanitize=address
-
 all : $(NAME)
 
 $(NAME) : $(OFILES)
