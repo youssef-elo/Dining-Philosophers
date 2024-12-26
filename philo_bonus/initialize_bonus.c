@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 16:18:33 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/26 12:18:52 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:20:05 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	struct_init(int ac, char **av, t_data *sim_d)
 	int	tmp;
 
 	sim_d->num_philos = ft_atoi(av[1]);
-	if (sim_d->num_philos <= 0)
+	if (sim_d->num_philos <= 0 || sim_d->num_philos > 600)
 		return (put_err("Invalid number of philosophers\n", 31));
 	tmp = ft_atoi(av[2]);
 	if (tmp <= 0)
@@ -58,14 +58,12 @@ int	init_semaphore(t_data *sim_d)
 	sim_d->dead = sem_open(DEADSM, O_CREAT, 0666, 0);
 	sim_d->full = sem_open(FULLSM, O_CREAT, 0666, 0);
 	sim_d->philo_lock = sem_open(PHILOSM, O_CREAT, 0666, 0);
-	if (sim_d->writing == SEM_FAILED || sim_d->forks == SEM_FAILED	
-		|| sim_d->dead == SEM_FAILED || sim_d->full == SEM_FAILED 
+	if (sim_d->writing == SEM_FAILED || sim_d->forks == SEM_FAILED
+		|| sim_d->dead == SEM_FAILED || sim_d->full == SEM_FAILED
 		|| sim_d->philo_lock == SEM_FAILED)
 	{
 		release_semaphores(sim_d);
 		return (1);
 	}
-	sim_d->satisfied = HUNGRY;
-	sim_d->philo_state = ALIVE;
 	return (0);
 }

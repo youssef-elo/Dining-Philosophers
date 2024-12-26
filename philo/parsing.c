@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:53:30 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/23 16:12:35 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:49:35 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	philo_mutex_init(t_monitor *m)
 	monitor_alloc(m);
 	if (m->philos)
 		philo_lock_init(m, &mutex_fail);
-	if (!m->start || !m->writing || !m->philos || !m->forks || mutex_fail)
+	if (!m->writing || !m->philos || !m->forks || mutex_fail)
 	{
 		cleanup(m);
 		return (1);

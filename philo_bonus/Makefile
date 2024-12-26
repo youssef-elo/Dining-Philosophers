@@ -1,6 +1,13 @@
 NAME =philo_bonus
 
-FILES= $(shell ls *.c)
+FILES= time.c  \
+	watchers.c  \
+	philo_bonus.c\
+	child_philo.c \
+	manage_philo.c \
+	parsing_bonus.c \
+	ft_atoi_bonus.c  \
+	initialize_bonus.c\
 
 OFILES = $(FILES:.c=.o)
 
@@ -13,7 +20,7 @@ HEADER= philo_bonus.h
 all : $(NAME)
 
 $(NAME) : $(OFILES)
-	cc $(FLAGS) $(OFILES) -o $(NAME) $(EXTRA)
+	cc $(FLAGS) $(OFILES) -o $(NAME) 
 
 %.o : %.c $(HEADER)
 	cc $(FLAGS) -c $< -o $@ 

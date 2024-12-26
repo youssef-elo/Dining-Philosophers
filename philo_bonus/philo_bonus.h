@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:44:28 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/26 12:19:04 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:27:16 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@
 typedef struct s_data
 {
 	int			id;
-	int 		t_eat;
+	int			t_eat;
 	int			t_sleep;
 	int			meal_max;
 	int			num_philos;
 	int			number_of_meals;
-	_Atomic int	satisfied;
-	_Atomic	int	philo_state;
 	size_t		t_die;
 	size_t		start;
 	size_t		last_meal;
@@ -55,9 +53,9 @@ typedef struct s_data
 	sem_t		*dead;
 	sem_t		*full;
 	sem_t		*philo_lock;
-}			t_data;
+}				t_data;
 
-typedef struct	s_watcher
+typedef struct s_watcher
 {
 	_Atomic int	full;
 	_Atomic int	sim_state;
@@ -66,11 +64,15 @@ typedef struct	s_watcher
 }				t_watcher;
 
 int		ft_atoi(char *str);
+void	*philo(t_data *sim_d);
+size_t	elapsed_time(size_t start);
 int		init_semaphore(t_data *sim_d);
 int		check_args(int ac, char **av);
-void	release_semaphores(t_data *sim_d);
-int		struct_init(int ac, char **av, t_data *sim_d);
 void	announce_death(t_data *sim_d);
-size_t	elapsed_time(size_t start);
-void	*philo(t_data *sim_d);
+void	watchers(t_data *sim_d, int *ids);
+void	release_semaphores(t_data *sim_d);
+void	kill_process(int *ids, int number);
+int		*make_childreen(t_data *sim_d, int i);
+int		ft_usleep(t_data *sim_d, size_t duration_ms);
+int		struct_init(int ac, char **av, t_data *sim_d);
 #endif

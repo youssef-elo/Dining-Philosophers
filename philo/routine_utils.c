@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:47:11 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/24 13:05:55 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:03:20 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	philo_eat(t_philo *philo)
 		pthread_mutex_unlock(&(philo->monitor->forks[philo->left_fork]));
 		return (1);
 	}
-	printf("%ld %d is eating\n", elapsed_time(philo->monitor->start), philo->id);
+	printf("%ld %d is eating\n",
+		elapsed_time(philo->monitor->start), philo->id);
 	pthread_mutex_unlock(philo->monitor->writing);
 	ft_usleep(philo, philo->monitor->t_eat);
 	pthread_mutex_unlock(&(philo->monitor->forks[philo->right_fork]));

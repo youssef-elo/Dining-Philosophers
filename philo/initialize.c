@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:57:41 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/24 15:12:10 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:53:42 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	init_monitor(int ac, char **av, t_monitor *monitor_data)
 	int	tmp;
 
 	monitor_data->num_philos = ft_atoi(av[1]);
-	if (monitor_data->num_philos <= 0)
+	if (monitor_data->num_philos <= 0 || monitor_data->num_philos > 600)
 		return (put_err("Invalid number of philosophers\n", 31));
 	tmp = ft_atoi(av[2]);
 	if (tmp <= 0)
