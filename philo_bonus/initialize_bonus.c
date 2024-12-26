@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 16:18:33 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/25 19:39:39 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:18:52 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,14 @@ int	init_semaphore(t_data *sim_d)
 	sem_unlink(FORKSM);
 	sem_unlink(FULLSM);
 	sem_unlink(PHILOSM);
-	sem_unlink(GREEN);
 	sim_d->writing = sem_open(WRITESM, O_CREAT, 0666, 1);
 	sim_d->forks = sem_open(FORKSM, O_CREAT, 0666, sim_d->num_philos);
 	sim_d->dead = sem_open(DEADSM, O_CREAT, 0666, 0);
 	sim_d->full = sem_open(FULLSM, O_CREAT, 0666, 0);
 	sim_d->philo_lock = sem_open(PHILOSM, O_CREAT, 0666, 0);
-	sim_d->green_light = sem_open(GREEN, O_CREAT, 0666, 0);
 	if (sim_d->writing == SEM_FAILED || sim_d->forks == SEM_FAILED	
 		|| sim_d->dead == SEM_FAILED || sim_d->full == SEM_FAILED 
-		|| sim_d->philo_lock == SEM_FAILED || sim_d->green_light == SEM_FAILED)
+		|| sim_d->philo_lock == SEM_FAILED)
 	{
 		release_semaphores(sim_d);
 		return (1);

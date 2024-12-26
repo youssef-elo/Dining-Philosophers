@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:44:28 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/25 19:39:01 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:19:04 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define DEADSM "/dead"
 # define FULLSM "/full"
 # define PHILOSM "/philo_lock"
-# define GREEN "/start_the_race"
+
 typedef struct s_data
 {
 	int			id;
@@ -55,7 +55,6 @@ typedef struct s_data
 	sem_t		*dead;
 	sem_t		*full;
 	sem_t		*philo_lock;
-	sem_t		*green_light;
 }			t_data;
 
 typedef struct	s_watcher

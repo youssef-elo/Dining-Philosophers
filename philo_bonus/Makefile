@@ -8,7 +8,7 @@ FLAGS= -Wall -Wextra -Werror
 
 HEADER= philo_bonus.h
 
-# EXTRA = -g -fsanitize=thread
+#EXTRA = -g -fsanitize=address
 
 all : $(NAME)
 

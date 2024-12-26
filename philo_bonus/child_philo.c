@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 10:40:06 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/25 20:51:12 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:38:07 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*monitor(void *arg)
 	sim_d = (t_data *)arg;
 	if (sim_d->t_die <= (size_t)sim_d->t_eat)
 		ft_usleep(sim_d, sim_d->t_die / 2);
-	else 
+	else
 		ft_usleep(sim_d, sim_d->t_eat / 2);
 	while(1)
 	{
@@ -62,22 +62,22 @@ void	*monitor(void *arg)
 		{
 			announce_death(sim_d);
 		}
-		usleep(1000);
+		usleep(500);
 	}
 }
 
 void	*philo(t_data *sim_d)
 {
 	pthread_t monitor_th;
-	
-	sem_wait(sim_d->green_light);
+
+	// sem_wait(sim_d->green_light);
 	pthread_create(&monitor_th, NULL, monitor, sim_d);
 	pthread_detach(monitor_th);
-	
+
 	sim_d->last_meal = elapsed_time(sim_d->start);
-	if (sim_d->id % 2 && sim_d->t_die <= (size_t)sim_d->t_eat)
+	if ((sim_d->id % 2 == 0) && sim_d->t_die <= (size_t)sim_d->t_eat)
 		ft_usleep(sim_d, sim_d->t_die / 2);
-	else if (sim_d->id % 2 && sim_d->t_die >= (size_t)sim_d->t_eat)
+	if ((sim_d->id % 2 == 0) && sim_d->t_die >= (size_t)sim_d->t_eat)
 		ft_usleep(sim_d, sim_d->t_eat / 2);
 	while (1)
 	{
@@ -85,27 +85,28 @@ void	*philo(t_data *sim_d)
 		sem_wait(sim_d->writing);
 		printf("%ld %d has taken a fork\n", elapsed_time(sim_d->start), sim_d->id);
 		sem_post(sim_d->writing);
-		
+
 		if (sim_d->num_philos == 1)
 			ft_usleep(sim_d, sim_d->t_die + 10000);
-			
+
 		sem_wait(sim_d->forks);
 
 		sim_d->last_meal = elapsed_time(sim_d->start);
-		sim_d->number_of_meals += 1;
+		sim_d->number_of_meals++;
 		sem_wait(sim_d->writing);
 
 		printf("%ld %d has taken a fork\n", elapsed_time(sim_d->start), sim_d->id);
-		
+
 		printf("%ld %d is eating\n", elapsed_time(sim_d->start), sim_d->id);
-		if (sim_d->meal_max == sim_d->number_of_meals)
-		{
-			sem_post(sim_d->full);
-			ft_usleep(sim_d, 1);	
-		}
+////		if (sim_d->meal_max != -1 && sim_d->meal_max == sim_d->number_of_meals)
+//		{
+//			sem_post(sim_d->full);
+			// usleep(200);
+			// exit(0);
+//		}
 		sem_post(sim_d->writing);
 		ft_usleep(sim_d, sim_d->t_eat);
-		
+
 		sem_post(sim_d->forks);
 		sem_post(sim_d->forks);
 
@@ -113,12 +114,17 @@ void	*philo(t_data *sim_d)
 		printf("%ld %d is sleeping\n", elapsed_time(sim_d->start), sim_d->id);
 		sem_post(sim_d->writing);
 		ft_usleep(sim_d, sim_d->t_sleep);
-		
+
 		sem_wait(sim_d->writing);
 		printf("%ld %d is thinking\n", elapsed_time(sim_d->start), sim_d->id);
 		sem_post(sim_d->writing);
 
+		if ( sim_d->meal_max != -1 && sim_d->meal_max == sim_d->number_of_meals)
+		{
+			sem_post(sim_d->full);
+			exit(0);
+		}
 	}
 }
 
-// 5 800 200 200 dies prematurelly 
+// 5 800 200 200 dies prematurelly

@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:44:34 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/25 20:41:29 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:39:12 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,13 @@ void	release_semaphores(t_data *sim_d)
 		sem_close(sim_d->philo_lock);
 		sem_unlink(PHILOSM);
 	}
-	if (sim_d->green_light)
-	{
-		sem_close(sim_d->green_light);
-		sem_unlink(GREEN);
-	}
 }
 
 void	*watcher1(void *arg)
 {
-	int			i;
+	int				i;
 	t_watcher	*watcher_d;
-	
+
 	i = 0;
 	watcher_d = (t_watcher *)arg;
 	while (i < watcher_d->sim_d->num_philos)
@@ -146,29 +141,18 @@ void	watchers(t_data *sim_d, int *ids)
 	release_semaphores(sim_d);
 }
 
-// void	forking_fail(t_data *sim, int green_light)
-// {
-// 	if (green_light)
-// }
-
-void start_kids(t_data *sim_d)
+void	forking_fail(t_data *sim_d, int *ids, int fail_i)
 {
-	int i;
-
-	i = 0;
-	while(i <= sim_d->num_philos)
-	{
-		sem_post(sim_d->green_light);
-		i++;
-	}
+	kill_process(ids, fail_i);
+	release_semaphores(sim_d);
+	exit(1);
 }
 
-int	*make_childreen(t_data *sim_d)
+int	*make_childreen(t_data *sim_d, int i)
 {
-	int i;
 	int	f;
 	int *ids;
-	
+
 	i = 0;
 	ids = ft_calloc(sizeof(int) * sim_d->num_philos);
 	if (!ids)
@@ -181,21 +165,15 @@ int	*make_childreen(t_data *sim_d)
 	while (i < sim_d->num_philos)
 	{
 		sim_d->id = i + 1;
-		// sim_d->last_meal = elapsed_time(sim_d->start);
 		f = fork();
 		if (f == -1)
-		{
-			kill_process(ids, i);
-			release_semaphores(sim_d);
-			exit(1);
-		}
+			forking_fail(sim_d, ids, i);
 		if (f == 0)
 			philo(sim_d);
 		else
 			ids[i] = f;
 		i++;
 	}
-	start_kids(sim_d);
 	return (ids);
 }
 
@@ -204,6 +182,10 @@ int main(int ac, char **av)
 	int *ids;
 	t_data sim_d;
 
+	int fd =open("f", O_RDWR);
+	if ( fd == -1)
+		exit(1);
+	setbuf(stdout , NULL);
 	memset(&sim_d, 0, sizeof(sim_d));
 	if (check_args(ac, av))
 		return (1);
@@ -211,6 +193,6 @@ int main(int ac, char **av)
 		return (2);
 	if (init_semaphore(&sim_d))
 		return (3);
-	ids = make_childreen(&sim_d);
+	ids = make_childreen(&sim_d, 0);
 	watchers(&sim_d, ids);
 }
