@@ -6,7 +6,7 @@
 /*   By: yel-ouaz <yel-ouaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:47:11 by yel-ouaz          #+#    #+#             */
-/*   Updated: 2024/12/26 18:03:20 by yel-ouaz         ###   ########.fr       */
+/*   Updated: 2024/12/28 10:55:59 by yel-ouaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,18 @@ int	lock_forks(t_philo *philo, int first, int second)
 
 int	philo_eat(t_philo *philo)
 {
+	int	check;
+
+	check = 0;
 	pthread_mutex_lock(philo->philo_lock);
 	philo->last_meal = elapsed_time(philo->monitor->start);
 	philo->number_of_meals += 1;
+	if (philo->number_of_meals == philo->monitor->meal_max)
+		check = 1;
 	pthread_mutex_unlock(philo->philo_lock);
 	pthread_mutex_lock(philo->monitor->writing);
-	if (philo->monitor->sim_state == ENDED || philo->monitor->satisfied == FULL)
+	if (philo->monitor->sim_state == ENDED
+		|| (philo->monitor->satisfied == FULL && check == 0))
 	{
 		pthread_mutex_unlock(philo->monitor->writing);
 		pthread_mutex_unlock(&(philo->monitor->forks[philo->right_fork]));
