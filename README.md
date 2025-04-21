@@ -27,21 +27,27 @@ Memory-safe: Zero leaks
 
 # 🕹️ Usage
 Mandatory version (mutexes)  
+
 ./philo <number_of_philos> <time_to_die> <time_to_eat> <time_to_sleep> [<meals_needed>]
 
 Example: 4 philosophers needing 3 meals each  
+
 ./philo 4 800 200 200 3
 
 Arguments
-Parameter	Description
-number_of_philos	Philosophers (1-200)
-time_to_die	Milliseconds before starving
-time_to_eat	Milliseconds per meal
-time_to_sleep	Milliseconds between meals
-meals_needed	(Optional) Stop after N meals```
 
+number_of_philos	Philosophers (1-200)
+
+time_to_die	Milliseconds before starving
+
+time_to_eat	Milliseconds per meal
+
+time_to_sleep	Milliseconds between meals
+
+meals_needed	(Optional) Stop after N meals
 
 # 📜 Compliance
+
 42 School Norm: Strict adherence to coding style
 
 Error Handling: Graceful exit on invalid input
@@ -49,4 +55,5 @@ Error Handling: Graceful exit on invalid input
 Performance: Handles up tp 200 philosophers without delay
 
 # 🚀 Bonus
+
 reimplementation of the mandatory part except using processes and semaphores instead of thread and mutex locks
